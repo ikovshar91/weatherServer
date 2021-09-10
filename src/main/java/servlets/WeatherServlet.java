@@ -1,9 +1,7 @@
 package servlets;
 
-import Api.Api;
 import com.google.gson.Gson;
 import json.Error;
-import json.NotFound;
 import json.Parametres;
 import json.UpParametres;
 import main.DateNow;
@@ -43,21 +41,16 @@ public class WeatherServlet extends HttpServlet {
                         resp.setStatus(500);
                         }
                     } else {
-
-                Error error = new Error(parametresResult.exception);
-
                     resp.setStatus(500);
+                    Error error = new Error(parametresResult.exception);
                     try {
                         resp.getWriter().print(gson.toJson(error));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-
             context.complete();
-
         });
-
     }
 
     public static Result<List<Parametres>> getParametres(String [] tags, Executor executor){

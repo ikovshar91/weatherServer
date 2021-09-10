@@ -1,6 +1,6 @@
 package main;
 
-public class Result <T>{
+public class Result <T> {
     public T result;
     public Exception exception;
 

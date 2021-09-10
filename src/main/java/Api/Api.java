@@ -1,6 +1,5 @@
 package Api;
 
-import com.google.gson.JsonSyntaxException;
 import json.Root;
 import main.Result;
 import com.google.gson.Gson;
@@ -19,6 +18,7 @@ public class Api {
         URL url = null;
         try {
             url = new URL("https://api.openweathermap.org/data/2.5/weather?q="+ message + "&units=metric&appid=b8a1b7610d9f6e7a3f3a9c44ecfe9ba6");
+
         } catch (MalformedURLException e){
             return new Result<>(e);
         }
@@ -48,7 +48,6 @@ public class Api {
 
         StringBuilder responce = new StringBuilder();
 
-
         try {
             while ((inputLine = in.readLine()) != null) {
                 responce.append(inputLine);
@@ -57,6 +56,7 @@ public class Api {
         } catch (IOException e){
             return  new Result<>(e);
         }
+
 
         try {
             return new Result<>(gson.fromJson(responce.toString(), Root.class));

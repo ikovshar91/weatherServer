@@ -17,13 +17,14 @@ public class Repository {
           Result<Root> rootResult = Api.getWeather(tag);
            Root root = rootResult.result;
            if(root == null){
-               return  new Result<>(rootResult.exception);
+               return new Result<>(rootResult.exception);
            }
+
            Parametres parametres = new Parametres();
-           parametres.city = tag;
-           parametres.temperature = root.main.temp;
-           parametres.feelsLike = root.main.feels_like;
-           parametres.windSpeed  = root.wind.speed;
+                parametres.city = root.name;
+                parametres.temperature = root.main.temp;
+                parametres.feelsLike = root.main.feels_like;
+                parametres.windSpeed = root.wind.speed;
 
            return new Result<>(parametres);
         }, executor);
@@ -35,5 +36,7 @@ public class Repository {
                 .collect(Collectors.toList());
         return FutureUtils.sequence(futures);
     }
+
+
 
 }

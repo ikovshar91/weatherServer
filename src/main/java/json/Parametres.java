@@ -5,4 +5,5 @@ public class Parametres {
     public double temperature;
     public double feelsLike;
     public double windSpeed;
+
 }
