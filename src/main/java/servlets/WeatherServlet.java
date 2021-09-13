@@ -47,7 +47,8 @@ public class WeatherServlet extends HttpServlet {
 
                 if (parametresResult.exception.getClass() == NullPointerException.class) {
                     resp.setStatus(404);
-                    if (parametresResult.exception.getMessage().contains("Cannot read")) {
+                    String ex = parametresResult.exception.getMessage();
+                    if (ex.contains("Cannot read")) {
                         try {
                             resp.getWriter().print(gson.toJson(error));
                         } catch (IOException exception) {
