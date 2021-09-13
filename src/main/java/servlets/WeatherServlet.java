@@ -42,9 +42,7 @@ public class WeatherServlet extends HttpServlet {
                         }
                     }
              else {
-
                 Error error = new Error(parametresResult.exception);
-
                 if (parametresResult.exception.getClass() == NullPointerException.class) {
                     resp.setStatus(404);
                     String ex = parametresResult.exception.getMessage();
@@ -55,7 +53,6 @@ public class WeatherServlet extends HttpServlet {
                             exception.printStackTrace();
                         }
                     } else {
-
                         NoParametres noParametres = new NoParametres();
                         noParametres.city = parametresResult.exception.getMessage();
                         noParametres.message = "city not found";
