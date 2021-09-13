@@ -20,10 +20,10 @@ public class Api {
            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
            connection.connect();
            int responceCode = connection.getResponseCode();
+
            if (responceCode == 404) {
                return new Result<>(new NullPointerException(message));
            }
-
            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
            String inputLine;
 

@@ -55,6 +55,7 @@ public class WeatherServlet extends HttpServlet {
                             exception.printStackTrace();
                         }
                     } else {
+
                         NoParametres noParametres = new NoParametres();
                         noParametres.city = parametresResult.exception.getMessage();
                         noParametres.message = "city not found";

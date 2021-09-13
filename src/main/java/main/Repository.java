@@ -38,5 +38,4 @@ public class Repository {
             return FutureUtils.sequence(futures);
     }
 
-
 }
