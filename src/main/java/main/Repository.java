@@ -16,6 +16,7 @@ public class Repository {
         return CompletableFuture.supplyAsync(() -> {
           Result<Root> rootResult = Api.getWeather(tag);
            Root root = rootResult.result;
+
            if(root == null){
                return new Result<>(rootResult.exception);
            }
@@ -34,9 +35,8 @@ public class Repository {
         List<CompletableFuture<Result<Parametres>>> futures = Arrays.stream(tags)
                 .map(x -> getWeatherForTag(x,executor))
                 .collect(Collectors.toList());
-        return FutureUtils.sequence(futures);
+            return FutureUtils.sequence(futures);
     }
-
 
 
 }

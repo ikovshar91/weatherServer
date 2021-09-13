@@ -1,9 +1,8 @@
 package servlets;
 
 import com.google.gson.Gson;
+import json.*;
 import json.Error;
-import json.Parametres;
-import json.UpParametres;
 import main.DateNow;
 import main.Repository;
 import main.Result;
@@ -31,6 +30,7 @@ public class WeatherServlet extends HttpServlet {
         AsyncContext context = req.startAsync();
         context.start(() -> {
             Result<List<Parametres>> parametresResult = getParametres(req.getParameterValues("tag"), executor);
+
             if(parametresResult.result != null) {
                 List<Parametres> results = parametresResult.result;
                     try {
@@ -40,15 +40,41 @@ public class WeatherServlet extends HttpServlet {
                         exception.printStackTrace();
                         resp.setStatus(500);
                         }
+                    }
+             else {
+
+                Error error = new Error(parametresResult.exception);
+
+                if (parametresResult.exception.getClass() == NullPointerException.class) {
+                    resp.setStatus(404);
+                    if (parametresResult.exception.getMessage().contains("Cannot read")) {
+                        try {
+                            resp.getWriter().print(gson.toJson(error));
+                        } catch (IOException exception) {
+                            exception.printStackTrace();
+                        }
                     } else {
+                        NoParametres noParametres = new NoParametres();
+                        noParametres.city = parametresResult.exception.getMessage();
+                        noParametres.message = "city not found";
+                        noParametres.cod = 404;
+                        try {
+                            resp.getWriter().print(gson.toJson(noParametres));
+
+                        } catch (IOException exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+                }
+                 else {
                     resp.setStatus(500);
-                    Error error = new Error(parametresResult.exception);
                     try {
                         resp.getWriter().print(gson.toJson(error));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
+            }
             context.complete();
         });
     }
@@ -58,8 +84,8 @@ public class WeatherServlet extends HttpServlet {
         try {
             statsResult = Repository.getWeatherForTags(tags, executor).get();
 
-        } catch (InterruptedException | ExecutionException e){
-            return new Result<>(e);
+        } catch (NullPointerException | InterruptedException | ExecutionException e){
+          return new Result<>(e);
         }
 
         Optional<Exception> error = statsResult.stream()
